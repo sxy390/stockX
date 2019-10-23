@@ -5,3 +5,10 @@ sql = """
         PRIMARY KEY (symbol)
     );
 """
+
+sql = """
+    CREATE TABLE symbols(
+        symbol VARCHAR(20) NOT NULL,
+        PRIMARY KEY (symbol)
+    );
+"""
