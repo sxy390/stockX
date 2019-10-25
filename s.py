@@ -38,12 +38,15 @@ class stocks:
     def addToWatch(self, symbol):
         add_symbol = "INSERT INTO symbols (symbol) VALUES (%(symbol)s)"
         data_symbol = {'symbol': symbol}
-        self.cursor.execute(add_symbol, data_symbol)
-        self.cnx.commit()
-        print("{} is added to the watchlist.".format(symbol))
+        try:
+            self.cursor.execute(add_symbol, data_symbol)
+            self.cnx.commit()
+            print("{} is added to the watchlist.".format(symbol))
+        except Exception:
+            print("Operation failed. Symbol may exist.")
 
     def getWatchlist(self):
-        self.cursor.execute("SELECT * FROM symbols")
+        self.cursor.execute("SELECT * FROM symbols ORDER BY symbol")
         result = self.cursor.fetchall()
         self.watchlist = [s[0] for s in result]
 
