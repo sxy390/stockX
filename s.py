@@ -25,7 +25,7 @@ class stocks:
     def __init__(self):
         self.cnx = mysql.connector.connect(
             user='testuser',
-            password='test123test!',
+            password='123',
             host='localhost',
             database='stock'
         )
