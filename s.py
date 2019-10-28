@@ -4,6 +4,7 @@ Usage:
     s.py -a <symbol>
     s.py -d|--dummy
     s.py -h|--help
+    s.py -u|--updatedata
     s.py -v|--version
     s.py -w|--watchlist
 Options:
@@ -11,15 +12,14 @@ Options:
     -a --add  Add symbol to watchlist.
     -d --dummy  Show something dummy.
     -h --help  Show this screen.
+    -u --updatedata  Update stock data.
     -v --version  Show version.
     -w --watchlist  Show symbols in current watchlist.
 """
 
 from docopt import docopt
 import mysql.connector
-
-def say_hello(name):
-    return("Hello {}!".format(name))
+from stockdata import getStockDate
 
 class stocks:
     def __init__(self):
@@ -56,6 +56,11 @@ class stocks:
         print("----------------------------")
         print("{} symbols in the watchlist.".format(len(self.watchlist)))
 
+    def updateData(self):
+        if len(self.watchlist) == 0:
+            self.getWatchlist()
+        getStockDate(self.watchlist)
+
     def exit(self):
         self.cursor.close()
         self.cnx.close()
@@ -72,6 +77,9 @@ if __name__ == '__main__':
     elif arguments["--watchlist"]:
         stocks.getWatchlist()
         stocks.printWatchlist()
+        stocks.exit()
+    elif arguments["--updatedata"]:
+        stocks.updateData()
         stocks.exit()
     else:
         print(arguments)
